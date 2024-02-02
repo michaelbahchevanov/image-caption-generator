@@ -1,0 +1,9 @@
+.pytest_cache
+.venv
+data
+exploration
+.gitignore
+README.md
+.git
+.DS_Store
+.ruff-cache
