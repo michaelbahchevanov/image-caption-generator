@@ -1,8 +1,8 @@
-from PIL import Image
-from transformers import BlipProcessor, BlipForConditionalGeneration
-
-from imagecap.base.predictor import BasePredictor
 from imagecap.base.detection import Detection
+from imagecap.base.predictor import BasePredictor
+from PIL import Image
+from transformers import BlipForConditionalGeneration, BlipProcessor
+
 
 class BLIP(BasePredictor):
     def __init__(self, model, processor):

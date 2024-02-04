@@ -1,0 +1,1 @@
+from imagecap.model.blip.predictor import BLIP
