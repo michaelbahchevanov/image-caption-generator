@@ -19,9 +19,9 @@ class BLIP(BasePredictor):
         )
 
     @classmethod
-    def from_local(cls, blip_model_ckpt, blip_processor_ckpt):
-        processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-large")
-        model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-large")
+    def load(cls, blip_model_ckpt, blip_processor_ckpt) -> "BLIP":
+        processor = BlipProcessor.from_pretrained(blip_processor_ckpt)
+        model = BlipForConditionalGeneration.from_pretrained(blip_model_ckpt)
         return cls(model, processor)
 
     def __repr__(self):
@@ -31,7 +31,7 @@ if __name__ == "__main__":
     from PIL import Image
     import numpy as np
 
-    model = BLIP.from_local("Salesforce/blip-image-captioning-large", "Salesforce/blip-image-captioning-large")
+    model = BLIP.load("Salesforce/blip-image-captioning-large", "Salesforce/blip-image-captioning-large")
     img = np.array(Image.open("exploration/assets/meow_and_woof.jpg"))[..., ::-1]
     preds = model.predict(img)
     print(preds.caption)

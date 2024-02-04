@@ -10,5 +10,5 @@ class Detection(BaseModel):
     boxes: np.ndarray | Tensor | None = None
     masks: np.ndarray | Tensor | None = None
     confidences: np.ndarray | Tensor | None = None
-    labels: np.ndarray | list | None = None
+    labels: np.ndarray | list[str] | None = None
     caption: str | list[str] | None = None

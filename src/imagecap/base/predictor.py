@@ -7,12 +7,12 @@ import torch
 class BasePredictor(ABC):
 
     @abstractmethod
-    def predict(self: "BasePredictor", image: np.ndarray | torch.Tensor) -> Detection:
+    def predict(self: "BasePredictor", image: np.ndarray | torch.Tensor, **kwargs) -> Detection:
         ...
 
     @classmethod
     @abstractmethod
-    def from_local(cls: Type["BasePredictor"], model_path: str) -> "BasePredictor":
+    def load(cls: Type["BasePredictor"], model_path: str, **kwargs) -> "BasePredictor":
         ...
 
     def __repr__(self):

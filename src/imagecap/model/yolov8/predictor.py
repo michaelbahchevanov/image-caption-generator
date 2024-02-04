@@ -1,6 +1,7 @@
-from ultralytics import YOLO
-from imagecap.base.predictor import BasePredictor
 from imagecap.base.detection import Detection
+from imagecap.base.predictor import BasePredictor
+from ultralytics import YOLO
+
 
 class YOLOv8(BasePredictor):
     def __init__(self, model: YOLO):
@@ -16,17 +17,17 @@ class YOLOv8(BasePredictor):
         )
 
     @classmethod
-    def from_local(cls, model_path: str):
+    def load(cls, model_path: str) -> "YOLOv8":
         return cls(YOLO(model=model_path))
 
     def __repr__(self):
         return self.__class__.__name__
     
 if __name__ == "__main__":
-    from PIL import Image
     import numpy as np
+    from PIL import Image
 
-    model = YOLOv8.from_local("models/yolo/weights/yolov8n.pt")
+    model = YOLOv8.load("models/yolo/weights/yolov8n.pt")
     img = np.array(Image.open("exploration/assets/meow_and_woof.jpg"))[..., ::-1]
     preds = model.predict(img)
     print(list(zip(preds.labels, preds.confidences.tolist())))

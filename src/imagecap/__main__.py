@@ -1,14 +1,14 @@
 import subprocess
 from pathlib import Path
 
-def ensure_downloads():
+
+def ensure_setup_models():
     if not Path("models").exists():
-        print('Downloading models...')
         try:
-            subprocess.check_call(["make", "download_models"])
+            subprocess.check_call(["make", "setup/models"])
         except subprocess.CalledProcessError:
             print('Failed to download models.')
             return
     print('Models are installed.')
 
-ensure_downloads()
+ensure_setup_models()
