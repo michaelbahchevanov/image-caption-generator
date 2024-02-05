@@ -9,8 +9,8 @@ class BLIP(BasePredictor):
         self.processor = processor
 
     def predict(self, image, **kwargs) -> Detection:
-        inputs = self.processor(images=image, text=kwargs.get("prompt", "a picture of"), return_tensors="pt", max_length=200, truncation=True)
-        outputs = self.model.generate(**inputs)
+        inputs = self.processor(images=image, return_tensors="pt")
+        outputs = self.model.generate(**inputs, max_length=kwargs.get("max_length", 100), min_length=kwargs.get("min_length", 50))
         decoded_output = self.processor.decode(outputs[0], skip_special_tokens=True)
         return Detection(
             caption=decoded_output,
