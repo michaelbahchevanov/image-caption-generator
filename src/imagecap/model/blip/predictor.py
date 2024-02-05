@@ -1,6 +1,5 @@
 from imagecap.base.detection import Detection
 from imagecap.base.predictor import BasePredictor
-from PIL import Image
 from transformers import BlipForConditionalGeneration, BlipProcessor
 
 
@@ -9,8 +8,8 @@ class BLIP(BasePredictor):
         self.model = model
         self.processor = processor
 
-    def predict(self, image) -> Detection:
-        inputs = self.processor(images=image, text="an image of",return_tensors="pt", max_length=50, truncation=True)
+    def predict(self, image, **kwargs) -> Detection:
+        inputs = self.processor(images=image, text=kwargs.get("prompt", "a picture of"), return_tensors="pt", max_length=200, truncation=True)
         outputs = self.model.generate(**inputs)
         decoded_output = self.processor.decode(outputs[0], skip_special_tokens=True)
         return Detection(
@@ -26,12 +25,3 @@ class BLIP(BasePredictor):
 
     def __repr__(self):
         return self.__class__.__name__
-
-if __name__ == "__main__":
-    import numpy as np
-    from PIL import Image
-
-    model = BLIP.load("Salesforce/blip-image-captioning-large", "Salesforce/blip-image-captioning-large")
-    img = np.array(Image.open("exploration/assets/meow_and_woof.jpg"))[..., ::-1]
-    preds = model.predict(img)
-    print(preds.caption)

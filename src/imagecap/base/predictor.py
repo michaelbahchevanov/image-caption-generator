@@ -1,8 +1,10 @@
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Type
+from typing import Type
+
 import numpy as np
-from imagecap.base.detection import Detection
 import torch
+from imagecap.base.detection import Detection
+
 
 class BasePredictor(ABC):
 

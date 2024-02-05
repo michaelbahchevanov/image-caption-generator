@@ -1,6 +1,7 @@
-from pydantic import BaseModel, ConfigDict, field_validator
 import numpy as np
+from pydantic import BaseModel, ConfigDict
 from torch import Tensor
+
 
 class Detection(BaseModel):
 
@@ -8,7 +9,7 @@ class Detection(BaseModel):
 
     orig_img: np.ndarray | Tensor | None = None
     boxes: np.ndarray | Tensor | None = None
-    masks: np.ndarray | Tensor | None = None
+    masks: Tensor | None = None
     confidences: np.ndarray | Tensor | None = None
     labels: np.ndarray | list[str] | None = None
     caption: str | list[str] | None = None

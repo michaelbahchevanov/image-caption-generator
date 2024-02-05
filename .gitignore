@@ -73,4 +73,7 @@ venv.bak/
 temp/
 
 # large files/models
-models
+models/
+
+# gradio
+flagged/

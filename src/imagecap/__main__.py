@@ -1,8 +1,8 @@
 import subprocess
-from imagecap.app import app as gradio_app
 from pathlib import Path
 
 import click
+from imagecap.app import app as gradio_app
 
 
 def ensure_setup_models():

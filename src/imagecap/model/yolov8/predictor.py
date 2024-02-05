@@ -23,11 +23,3 @@ class YOLOv8(BasePredictor):
     def __repr__(self):
         return self.__class__.__name__
     
-if __name__ == "__main__":
-    import numpy as np
-    from PIL import Image
-
-    model = YOLOv8.load("models/yolo/weights/yolov8n.pt")
-    img = np.array(Image.open("exploration/assets/meow_and_woof.jpg"))[..., ::-1]
-    preds = model.predict(img)
-    print(list(zip(preds.labels, preds.confidences.tolist())))
