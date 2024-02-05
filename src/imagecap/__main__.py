@@ -10,8 +10,7 @@ def ensure_setup_models():
         try:
             subprocess.check_call(["make", "setup/models"])
         except subprocess.CalledProcessError:
-            print("Failed to download models.")
-            return
+            raise SystemExit("Error: Unable to download models. Please check your internet connection and try again.")
 
 ensure_setup_models()
 

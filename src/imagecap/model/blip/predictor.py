@@ -28,8 +28,8 @@ class BLIP(BasePredictor):
         return self.__class__.__name__
 
 if __name__ == "__main__":
-    from PIL import Image
     import numpy as np
+    from PIL import Image
 
     model = BLIP.load("Salesforce/blip-image-captioning-large", "Salesforce/blip-image-captioning-large")
     img = np.array(Image.open("exploration/assets/meow_and_woof.jpg"))[..., ::-1]
