@@ -9,7 +9,9 @@ from imagecap.base.detection import Detection
 class BasePredictor(ABC):
 
     @abstractmethod
-    def predict(self: "BasePredictor", image: np.ndarray | torch.Tensor, **kwargs) -> Detection:
+    def predict(
+        self: "BasePredictor", image: np.ndarray | torch.Tensor, **kwargs
+    ) -> Detection:
         ...
 
     @classmethod
@@ -19,4 +21,3 @@ class BasePredictor(ABC):
 
     def __repr__(self):
         return self.__class__.__name__
-    

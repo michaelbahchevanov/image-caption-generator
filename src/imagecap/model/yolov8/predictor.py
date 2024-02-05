@@ -4,6 +4,7 @@ from ultralytics import YOLO
 
 
 class YOLOv8(BasePredictor):
+
     def __init__(self, model: YOLO):
         self.model = model
 
@@ -13,7 +14,7 @@ class YOLOv8(BasePredictor):
             boxes=results[0].boxes.xyxy,
             confidences=results[0].boxes.conf,
             labels=[results[0].names[int(c)] for c in results[0].boxes.cls],
-            orig_img=results[0].orig_img
+            orig_img=results[0].orig_img,
         )
 
     @classmethod
@@ -22,4 +23,3 @@ class YOLOv8(BasePredictor):
 
     def __repr__(self):
         return self.__class__.__name__
-    

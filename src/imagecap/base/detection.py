@@ -4,7 +4,6 @@ from torch import Tensor
 
 
 class Detection(BaseModel):
-
     model_config = ConfigDict(validate_assignment=True, arbitrary_types_allowed=True)
 
     orig_img: np.ndarray | Tensor | None = None
