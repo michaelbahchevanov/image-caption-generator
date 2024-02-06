@@ -1,3 +1,4 @@
+"""Module containing the model classes for the image captioning task."""
 from imagecap.model.blip.predictor import BLIP
 from imagecap.model.dino.predictor import Dino
 from imagecap.model.sam.predictor import Sam

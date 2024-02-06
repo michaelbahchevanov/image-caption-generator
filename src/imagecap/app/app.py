@@ -1,9 +1,11 @@
+"""Gradio app for image captioning."""
 from enum import Enum
 
 import gradio as gr
 import numpy as np
 from imagecap.model import BLIP, Dino, Sam, YOLOv8
 
+# TODO: Hardcoded model paths should be replaced with environment variables or constants.
 blip_model = BLIP.load(
     "Salesforce/blip-image-captioning-large", "Salesforce/blip-image-captioning-large"
 )
@@ -16,18 +18,44 @@ dino_model = Dino.load(
 
 
 class DemoType(Enum):
+    """Enum representing the different available modes."""
+
     caption_generator = "caption-generator"
     tag_generator = "tag-generator"
     grounded_tag_generator = "grounded-tag-generator"
 
 
 def predict_caption_generator(image, min_length, max_length):
+    """Predicts a caption for the given image using the caption generator model (BLIP).
+
+    Args:
+    ----
+        image: The input image for which to generate a caption.
+        min_length: The minimum length of the generated caption.
+        max_length: The maximum length of the generated caption.
+
+    Returns:
+    -------
+        The predicted caption for the given image.
+
+    """
     return blip_model.predict(
         image, min_length=min_length, max_length=max_length
     ).caption
 
 
 def predict_tag_generator(image):
+    """Generate tags for the given image using YOLOv8 for object detection and SAM for segmentation.
+
+    Args:
+    ----
+        image: The input image.
+
+    Returns:
+    -------
+        A tuple containing a set of predicted tags and an annotated image.
+
+    """
     preds = yolo_model.predict(image)
     sam_preds = sam_model.predict(preds.orig_img, boxes=preds.boxes)
     annotated_frame_with_mask = np.copy(preds.orig_img)
@@ -42,6 +70,18 @@ def predict_tag_generator(image):
 
 
 def predict_grounded_tag_generator(image, prompt):
+    """Generate grounded tags for an image based on a prompt.
+
+    Args:
+    ----
+        image: The input image.
+        prompt: The prompt for generating grounded tags.
+
+    Returns:
+    -------
+        A tuple containing a set of grounded tags and the annotated image with masks.
+
+    """
     dino_preds = dino_model.predict(image, prompt=prompt)
     sam_preds = sam_model.predict(dino_preds.orig_img, boxes=dino_preds.boxes)
     annotated_frame_with_mask = np.copy(dino_preds.orig_img)
@@ -55,6 +95,7 @@ def predict_grounded_tag_generator(image, prompt):
 
 
 def run():
+    """Run the Gradio app as the main entry point function."""
     with gr.Blocks() as demo:
         with gr.Tab(DemoType.caption_generator.value):
             with gr.Row():
