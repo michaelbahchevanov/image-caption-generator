@@ -1,4 +1,5 @@
 """Model predictor for YOLOv8."""
+import cv2
 from imagecap.base.detection import Detection
 from imagecap.base.predictor import BasePredictor
 from ultralytics import YOLO
@@ -29,7 +30,12 @@ class YOLOv8(BasePredictor):
             The detection results containing bounding boxes, confidences, labels, and original image.
 
         """
+        # # If the image has an alpha as well, convert it to RGB
+        if image.shape[2] == 4:
+            image = cv2.cvtColor(image, cv2.COLOR_RGBA2RGB)
+
         results = self.model.predict(image)
+        # TODO: Add support for multiple detections; currently only the first detection is returned
         return Detection(
             boxes=results[0].boxes.xyxy,
             confidences=results[0].boxes.conf,
