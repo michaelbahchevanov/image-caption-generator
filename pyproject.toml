@@ -148,6 +148,7 @@ websocket-client = "1.7.0"
 widgetsnbextension = "4.0.9"
 yapf = "0.40.2"
 zipp = "3.17.0"
+gradio = "^4.17.0"
 
 
 [build-system]
