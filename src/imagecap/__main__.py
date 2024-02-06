@@ -50,8 +50,8 @@ def cli():
     required=True,
     help="Path to the input image.",
 )
-@click.option("--min_length", type=click.INT, required=True)
-@click.option("--max_length", type=click.INT, required=True)
+@click.option("--min_length", type=click.INT, required=False, default=50)
+@click.option("--max_length", type=click.INT, required=False, default=100)
 def caption_image(input_image_path, min_length, max_length):
     """Generate a caption for the given input image.
 

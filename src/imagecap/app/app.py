@@ -4,6 +4,7 @@ from enum import Enum
 import gradio as gr
 import numpy as np
 from imagecap.model import BLIP, Dino, Sam, YOLOv8
+from imagecap.utils.image_utils import ensure_image_dimensions
 
 # TODO: Hardcoded model paths should be replaced with environment variables or constants.
 blip_model = BLIP.load(
@@ -15,25 +16,6 @@ dino_model = Dino.load(
     model_config_path="models/dino/config/GroundingDINO_SwinT_OGC.py",
     model_path="models/dino/weights/groundingdino_swint_ogc.pth",
 )
-
-
-_MAX_IMAGE_DIM = 1600
-
-
-def _ensure_image_dimensions(image) -> None:
-    """Ensure that the input image dimensions are within the acceptable range.
-
-    Args:
-    ----
-        image: The input image.
-
-    Raises:
-    ------
-        ValueError: If the image dimensions are greater than the maximum allowed dimensions.
-
-    """
-    if image.shape[0] >= _MAX_IMAGE_DIM or image.shape[1] >= _MAX_IMAGE_DIM:
-        raise ValueError("Image dimensions should be max 1600x1600")
 
 
 class DemoType(Enum):
@@ -76,7 +58,7 @@ def predict_tag_generator(image):
 
     """
     try:
-        _ensure_image_dimensions(image)
+        ensure_image_dimensions(image)
         preds = yolo_model.predict(image)
         sam_preds = sam_model.predict(preds.orig_img, boxes=preds.boxes)
         annotated_frame_with_mask = np.copy(preds.orig_img)
@@ -106,7 +88,7 @@ def predict_grounded_tag_generator(image, prompt):
 
     """
     try:
-        _ensure_image_dimensions(image)
+        ensure_image_dimensions(image)
         dino_preds = dino_model.predict(image, prompt=prompt)
         sam_preds = sam_model.predict(dino_preds.orig_img, boxes=dino_preds.boxes)
         annotated_frame_with_mask = np.copy(dino_preds.orig_img)

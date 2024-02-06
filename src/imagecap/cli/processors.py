@@ -4,7 +4,7 @@ from imagecap.model import BLIP, Dino, YOLOv8
 from PIL import Image
 
 
-def get_image_caption(input_image_path, min_length, max_length):
+def get_image_caption(input_image_path, min_length=50, max_length=100):
     """Generate a caption for an input image using the BLIP image captioning model.
 
     Args:
